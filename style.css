@@ -1,0 +1,145 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol, ul {
+  list-style: none;
+}
+blockquote, q {
+  quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* custom css */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  padding-top: 120px;
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 30px;
+  text-align: center;
+  font: 70px 'Montserrat', Arial;
+  font-weight: bold;
+}
+
+#new-book-form {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  height: 100px;
+}
+
+#new-book-btn {
+  margin-bottom: 40px;
+  padding-left: 20px;
+  padding-right: 20px;
+  font: 35px 'Montserrat';
+  background-color: white;
+  border: 5px solid black;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+.table-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.table-header, .book-details, #book-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr 145px 95px 125px;
+  grid-gap: 10px;
+}
+
+#book-form {
+  justify-items: center;
+  height: 50%;
+}
+
+#add-button {
+  width: 100%;
+}
+
+#new-isRead {
+  align-self: center;
+  width: 100%;
+  height: 100%
+}
+
+.table-container, #book-form {
+  width: 100%;
+  max-width: 1300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.detail, .table-header-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  font-size: 25px;
+  border: 1px solid black;
+}
+
+input {
+  width: calc(100% - 4px);
+  padding-left: 20px;
+}
+
+[id^="isRead"] {
+  cursor: pointer;
+}
+
+[id^="isRead"]:hover {
+  background-color: lightgreen;
+  transition-duration: 0.5s;
+}
+
+.hidden, #book-form.hidden {
+  display: none;
+  transition-duration: 1s;
+}
