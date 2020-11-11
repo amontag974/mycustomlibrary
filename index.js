@@ -1,5 +1,3 @@
-// will take user input for a book and then display it on the page
-// book information will include title, author, number of pages, and whether or not it has been read
 
 // create constructor to create book objects
 function library() {
@@ -9,10 +7,24 @@ function library() {
         createNewBookForm();
     });
 
-    const book0 = new Book('Example Book', 'Example Author', 100, true);
-
     // create array that will contain all book objects
-    let myLibrary = [book0];
+    let myLibrary = getLibrary();
+
+    function getLibrary() {
+        const exampleBook = new Book('Example Book', 'Example Author', 100, true);
+        const localStorageLibraryExists = checkIfStorageLibraryExists();
+
+        if (localStorageLibraryExists) {
+            const library = JSON.parse(localStorage.myCustomLibrary)
+            return library;
+        }
+        return [exampleBook];
+    }
+
+    function checkIfStorageLibraryExists() {
+        if (localStorage.myCustomLibrary && localStorage.myCustomLibrary !== "[]") { return true }
+        return false;
+    }
 
     // loop through array and display on page
     function displayBooks(myLibrary) {
@@ -47,10 +59,15 @@ function library() {
             bookDiv.appendChild(removeButton);
 
             tableContents.appendChild(bookDiv);
+
+
         }
+
         // add listener events to all change & remove buttons
         addReadStatusToggle();
         addRemoveButtonListener();
+
+        addLibraryToLocalStorage();
     }
 
     function addReadStatusToggle() {
@@ -68,49 +85,26 @@ function library() {
             removeButtons[bookIndex].addEventListener('click', () => removeBook(bookIndex));
         }
     }
-    
-    function addAddButtonListener() {
-        const addButton = document.getElementById('add-button');
-        addButton.addEventListener('click', () => addBook())
-    }
 
-    function addBook() {
+    function addBook(e) {
+        e.preventDefault();
 
-        if (validateData()) {
-            const newBook = new Book(
-                document.getElementById('new-title').value,
-                document.getElementById('new-author').value,
-                document.getElementById('new-pageCount').value,
-                document.getElementById('new-isRead').checked
-            )
-    
-            myLibrary.push(newBook);
-    
-            displayBooks(myLibrary);
-    
-            //remove book form
-            document.getElementById('book-form').remove();
-    
-            //display create button
-            document.getElementById('new-book-btn').classList.remove('hidden');
-        }
-    }
+        const newBook = new Book(
+            document.getElementById('new-title').value,
+            document.getElementById('new-author').value,
+            document.getElementById('new-pageCount').value,
+            document.getElementById('new-isRead').checked
+        )
 
-    function validateData() {
-        let validated = true;
-        const dataToBeChecked = [];
+        myLibrary.push(newBook);
 
-        dataToBeChecked.push(document.getElementById('new-title'));
-        dataToBeChecked.push(document.getElementById('new-author'));
-        dataToBeChecked.push(document.getElementById('new-pageCount'));
+        displayBooks(myLibrary);
 
-        for( i=0; i< dataToBeChecked.length; i++ ) {
-            if (!dataToBeChecked[i].validity.valid) {
-                validated = false;
-            }
-        }
+        //remove book form
+        document.getElementById('book-form').remove();
 
-        return validated;
+        //display create button
+        document.getElementById('new-book-btn').classList.remove('hidden');
     }
 
     function changeStatus(id) {
@@ -142,7 +136,7 @@ function library() {
         target.appendChild(newBookForm);
 
         //provide add button functionality
-        addAddButtonListener();
+        newBookForm.addEventListener('submit', addBook);
     }
 
     function createTitleInput() {
@@ -152,9 +146,12 @@ function library() {
 
         titleLabel.innerHTML = "Book Title";
         titleLabel.setAttribute('class', 'form-label');
+
         titleInput.setAttribute('id', 'new-title');
         titleInput.setAttribute('type','text');
         titleInput.required = true;
+
+        titleContainer.setAttribute('class','book-form-input-container');
         titleContainer.appendChild(titleLabel);
         titleContainer.appendChild(titleInput);
         return titleContainer;
@@ -167,9 +164,12 @@ function library() {
 
         authorLabel.innerText = "Author";
         authorLabel.setAttribute('class', 'form-label');
+        
         authorInput.setAttribute('id', 'new-author');
         authorInput.setAttribute('type','text');
         authorInput.required = true;
+
+        authorContainer.setAttribute('class','book-form-input-container');
         authorContainer.appendChild(authorLabel);
         authorContainer.appendChild(authorInput);
         return authorContainer;
@@ -182,9 +182,12 @@ function library() {
 
         pageCountLabel.innerText = "Page Count";
         pageCountLabel.setAttribute('class', 'form-label');
+
         pageCountInput.setAttribute('id', 'new-pageCount');
         pageCountInput.setAttribute('type','number');
         pageCountInput.required = true;
+
+        pageCountContainer.setAttribute('class','book-form-input-container');
         pageCountContainer.appendChild(pageCountLabel);
         pageCountContainer.appendChild(pageCountInput);
         return pageCountContainer;
@@ -197,8 +200,11 @@ function library() {
 
         isReadLabel.innerText = "Read (check)";
         isReadLabel.setAttribute('class', 'form-label');
+
         isReadCheckbox.setAttribute('id', 'new-isRead');
         isReadCheckbox.setAttribute('type','checkbox');
+
+        isReadContainer.setAttribute('class','book-form-input-container');
         isReadContainer.appendChild(isReadLabel);
         isReadContainer.appendChild(isReadCheckbox);
         return isReadContainer;
@@ -210,6 +216,14 @@ function library() {
         addButton.setAttribute('type', 'submit');
         addButton.textContent= 'Add';
         return addButton;
+    }
+
+    function addLibraryToLocalStorage() {
+        localStorage.myCustomLibrary = stringifyLibrary(myLibrary);
+    }
+
+    function stringifyLibrary(myLibrary) {
+        return JSON.stringify(myLibrary);
     }
 
     displayBooks(myLibrary);
@@ -225,18 +239,4 @@ class Book {
 }
 
 library();
-
-
-
-
-
-// need button (add a new book) and bring up a new form that asks for book information
-// this form displays only when you hit add book
-// will have buttons to create book & cancel, removing the form
-// title & author input will be text inputs
-// number of pages will be text input that only accepts integers
-// read condition will be checkbox with two options
-
-// push newly created book objects to library array
-// this should occur when create book button is clicked
 

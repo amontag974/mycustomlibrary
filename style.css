@@ -99,6 +99,11 @@ h1 {
   height: 50%;
 }
 
+.book-form-input-container {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+}
+
 #add-button {
   width: 100%;
 }
