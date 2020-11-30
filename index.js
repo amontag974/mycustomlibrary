@@ -28,39 +28,28 @@ function library() {
 
     // loop through array and display on page
     function displayBooks(myLibrary) {
-        let tableContents = document.getElementById('table-contents');
-        tableContents.innerHTML = ''
+        let bookContainer = document.getElementsByClassName('book-container')[0];
+        bookContainer.innerHTML = ''
 
         // make book div with id 'book' + libIndex
         for(let libIndex = 0; libIndex < myLibrary.length; libIndex++) {
-            let bookDiv = document.createElement('div');
-            bookDiv.setAttribute('id',`book_${libIndex}`);
-            bookDiv.setAttribute('class','book-details');
-            // in each div, make a p element with id of property + libIndex
-            // ex: title0, author0, title1, author1
+            let currentBook = myLibrary[libIndex]
+            let bookCard = document.createElement('div');
+            bookCard.setAttribute('id',`book_${libIndex}`);
 
-            for (let prop in myLibrary[libIndex]) {
-                let propElement = document.createElement('p');
-                propElement.setAttribute('id',`${prop}_${libIndex}`);
-                propElement.setAttribute('class',`detail`);
-                if (prop === 'isRead') {
-                    propElement.textContent = myLibrary[libIndex][prop] ? 'Y' : 'N';
-                } else {
-                    propElement.textContent = myLibrary[libIndex][prop];
-                }
-                bookDiv.appendChild(propElement);
-            }
+            //determines card color based on read status
+            currentBook.isRead ? bookCard.setAttribute('class', 'read') : bookCard.setAttribute('class', 'unread');
 
-            // need buttons for each book that will remove the book
-            let removeButton = document.createElement('button');
-            removeButton.textContent = 'X';
-            removeButton.setAttribute('id', `remove_${libIndex}`);
-            removeButton.setAttribute('class','remove c6');
-            bookDiv.appendChild(removeButton);
+            let bookDetailElements = createBookDetailElements(currentBook, libIndex);
+            bookDetailElements.forEach(element => {
+                bookCard.appendChild(element);
+            });
 
-            tableContents.appendChild(bookDiv);
+            // need button for each book that will remove the book
+            let removeIcon = createRemoveIcon(libIndex);
+            bookCard.appendChild(removeIcon);
 
-
+            bookContainer.appendChild(bookCard);
         }
 
         // add listener events to all change & remove buttons
@@ -70,19 +59,58 @@ function library() {
         addLibraryToLocalStorage();
     }
 
+    function createBookDetailElements(book, index) {
+        const bookDetailElements = [];
+
+        for(let prop in book) {
+            let propElement = document.createElement('p');
+            propElement.setAttribute('id',`${prop}_${index}`);
+            propElement.setAttribute('class',`detail`);
+
+            switch(prop) {
+                case "title":
+                    propElement.textContent = book[prop];
+                    break;
+                case "author": 
+                    propElement.textContent = `By ${book[prop]}`
+                    break;
+                case "pageCount":
+                    propElement.textContent = `${book[prop]} pages`;
+                    break;
+                case "isRead":
+                    break;
+            }
+
+            bookDetailElements.push(propElement);
+        }
+
+        return bookDetailElements;
+    }
+
+    function createRemoveIcon(index) {
+        let removeIcon = document.createElement('span');
+        removeIcon.innerHTML = `&#10006;`;
+        removeIcon.setAttribute('id', `remove_${index}`);
+        
+        return removeIcon;
+    }
+
     function addReadStatusToggle() {
-        const isReadBoxes = document.querySelectorAll('[id^="isRead"]');
-        for (let bookIndex = 0; bookIndex < isReadBoxes.length; bookIndex++) {
-            isReadBoxes[bookIndex].addEventListener('click', function() {
+        const books = document.querySelectorAll('[id^="book_"]');
+        for (let bookIndex = 0; bookIndex < books.length; bookIndex++) {
+            books[bookIndex].addEventListener('click', function() {
                 changeStatus(bookIndex);
             });
         }
     }
 
     function addRemoveButtonListener() {
-        const removeButtons = document.getElementsByClassName('remove');
+        const removeButtons = document.querySelectorAll('[id^="remove_"]');
         for (let bookIndex = 0; bookIndex < removeButtons.length; bookIndex++) {
-            removeButtons[bookIndex].addEventListener('click', () => removeBook(bookIndex));
+            removeButtons[bookIndex].addEventListener('click', (e) => {
+                removeBook(bookIndex);
+                e.stopPropagation();
+            });
         }
     }
 
@@ -108,13 +136,17 @@ function library() {
     }
 
     function changeStatus(id) {
-        myLibrary[id].isRead = !myLibrary[id].isRead;
-        displayBooks(myLibrary);
+        if (myLibrary.length > 0) {
+            myLibrary[id].isRead = !myLibrary[id].isRead;
+            displayBooks(myLibrary);
+        }
     }
 
     function removeBook(id) {
-        myLibrary = myLibrary.slice(0,id).concat(myLibrary.slice(id+1));
-        displayBooks(myLibrary);
+        if (myLibrary.length > 0) {
+            myLibrary = myLibrary.slice(0,id).concat(myLibrary.slice(id+1));
+            displayBooks(myLibrary);
+        }
     }
 
     function createNewBookForm() {

@@ -61,7 +61,7 @@ body {
 h1 {
   margin-bottom: 30px;
   text-align: center;
-  font: 70px 'Montserrat', Arial;
+  font: 30px 'Montserrat', Arial;
   font-weight: bold;
 }
 
@@ -76,27 +76,39 @@ h1 {
   margin-bottom: 40px;
   padding-left: 20px;
   padding-right: 20px;
-  font: 35px 'Montserrat';
+  font: 20px 'Montserrat';
   background-color: white;
   border: 5px solid black;
   border-radius: 25px;
   cursor: pointer;
 }
 
-.table-container {
+.book-container {
   display: flex;
-  flex-direction: column;
+  flex-flow: column wrap;
+  justify-content: space-evenly;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.table-header, .book-details, #book-form {
-  display: grid;
-  grid-template-columns: 1fr 1fr 145px 95px 125px;
-  grid-gap: 10px;
+@media (min-width: 400px) {
+  .book-container {
+    flex-direction: row;
+    flex: 1 1 0px;
+  }
 }
 
 #book-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr 145px 95px 125px;
+  grid-gap: 10px;
   justify-items: center;
   height: 50%;
+  width: 100%;
+  max-width: 1300px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .book-form-input-container {
@@ -114,20 +126,12 @@ h1 {
   height: 100%
 }
 
-.table-container, #book-form {
-  width: 100%;
-  max-width: 1300px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.detail, .table-header-item {
+.detail {
   display: flex;
+  text-align: left;
   align-items: center;
-  justify-content: center;
-  padding: 10px;
-  font-size: 25px;
-  border: 1px solid black;
+  line-height: 1.5;
+  font-size: 20px;
 }
 
 input {
@@ -135,12 +139,38 @@ input {
   padding-left: 20px;
 }
 
+[id^="book"] {
+  position: relative;
+  min-width: 40%;
+  padding: 5px 20px 5px 10px;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
 [id^="isRead"] {
   cursor: pointer;
 }
 
-[id^="isRead"]:hover {
+.read {
   background-color: lightgreen;
+  transition-duration: 0.5s;
+}
+
+.unread {
+  background-color: rgb(255, 100, 100);
+  transition-duration: 0.5s;
+}
+
+[id^="remove"] {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
+  transition-duration: 0.5s;
+}
+
+[id^="remove"]:hover {
+  color: darkred;
   transition-duration: 0.5s;
 }
 
