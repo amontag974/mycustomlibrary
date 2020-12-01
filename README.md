@@ -1,0 +1,3 @@
+This page is a handy way to keep track of any books you have read and would like to read in the future.
+
+You can add a book by hitting the "Create New Book" button and entering the title of the book, the author, the page count, and whether or not you have read the book. Once you have added the book, the information entered will show up on a card below. Green cards indicate books you have read while red cards indicate books you have not read. Once read, you can change the color of the book by clicking on the card (You can change back to red if you misclick or if you accidentally mark the book as read when you add it). There is also an option to remove the card completely by clicking the "X" in the top right corner of each card.

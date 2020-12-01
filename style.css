@@ -54,15 +54,44 @@ table {
 }
 
 body {
-  padding-top: 120px;
+  position: relative;
   text-align: center;
 }
 
+.background {
+  min-height: 100vh;
+  background-image: url("images/bg1.jpeg");
+  background-size: cover;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0.6;
+}
+
+.library-contents {
+  position: relative;
+}
+
 h1 {
+  padding-top: 120px;
   margin-bottom: 30px;
   text-align: center;
   font: 30px 'Montserrat', Arial;
   font-weight: bold;
+}
+
+@media (min-width: 400px) {
+  h1 {
+    font-size: 40px;
+  }
+}
+
+@media (min-width: 992px) {
+  h1 {
+    font-size: 60px;
+  }
 }
 
 #new-book-form {
@@ -83,19 +112,38 @@ h1 {
   cursor: pointer;
 }
 
+@media (min-width: 400px) {
+  #new-book-btn {
+    font-size: 25px;
+  }
+}
+
+@media (min-width: 992px) {
+  #new-book-btn {
+    font-size: 30px;
+  }
+}
+
 .book-container {
-  display: flex;
-  flex-flow: column wrap;
-  justify-content: space-evenly;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 20px;
   width: 90%;
+  justify-items: stretch;
   margin-left: auto;
   margin-right: auto;
 }
 
 @media (min-width: 400px) {
   .book-container {
-    flex-direction: row;
-    flex: 1 1 0px;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 992px) {
+  .book-container {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 1000px;
   }
 }
 
@@ -103,7 +151,7 @@ h1 {
   display: grid;
   grid-template-columns: 1fr 1fr 145px 95px 125px;
   grid-gap: 10px;
-  justify-items: center;
+  justify-items: stretch;
   height: 50%;
   width: 100%;
   max-width: 1300px;
@@ -139,15 +187,23 @@ input {
   padding-left: 20px;
 }
 
-[id^="book"] {
+[id^="book_"] {
+  flex: 1 1 0;
   position: relative;
-  min-width: 40%;
+  min-width: 160px;
   padding: 5px 20px 5px 10px;
-  border: 1px solid black;
+  border: 2px solid black;
   border-radius: 10px;
 }
 
-[id^="isRead"] {
+@media (min-width: 992px) {
+  [id^="book_"] {
+    min-width: 300px;
+    max-width: 450px;
+  }
+}
+
+[id^="isRead_"] {
   cursor: pointer;
 }
 
@@ -161,7 +217,7 @@ input {
   transition-duration: 0.5s;
 }
 
-[id^="remove"] {
+[id^="remove_"] {
   position: absolute;
   top: 5px;
   right: 5px;
@@ -169,7 +225,7 @@ input {
   transition-duration: 0.5s;
 }
 
-[id^="remove"]:hover {
+[id^="remove_"]:hover {
   color: darkred;
   transition-duration: 0.5s;
 }
