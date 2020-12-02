@@ -70,6 +70,7 @@ function library() {
             switch(prop) {
                 case "title":
                     propElement.textContent = book[prop];
+                    propElement.setAttribute('class', 'detail book-title');
                     break;
                 case "author": 
                     propElement.textContent = `By ${book[prop]}`
